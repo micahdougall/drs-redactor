@@ -1,0 +1,14 @@
+{
+  "info_type_transformations": {
+      "transformations": [
+          {
+              "primitive_transformation": {
+                "character_mask_config": {
+                    "masking_character": "*",
+                    "number_to_mask": 20
+                }
+              }
+          }
+      ]
+  }
+}

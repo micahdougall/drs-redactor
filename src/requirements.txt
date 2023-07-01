@@ -1,0 +1,8 @@
+attrs==22.2.0
+dataclass-wizard==0.22.2
+google-cloud-dlp
+functions_framework==3.3.0
+jproperties==2.1.1
+jsonschema==4.17.3
+protobuf==4.23.3
+StrEnum==0.4.10

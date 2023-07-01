@@ -1,0 +1,8 @@
+{
+    "info_types": [
+        {"name": "FIRST_NAME"},
+        {"name": "LAST_NAME"}
+    ],
+    "include_quote": true,
+    "limits": {"max_findings_per_request": 0}
+}

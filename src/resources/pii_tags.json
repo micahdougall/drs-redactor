@@ -1,0 +1,20 @@
+[
+  {
+    "field": "firstName",
+    "has_pii": true,
+    "info_type": "FIRST_NAME",
+    "likelihood_threshold": 1
+  },
+  {
+    "field": "lastName",
+    "has_pii": true,
+    "info_type": "LAST_NAME",
+    "likelihood_threshold": 1
+  },
+  {
+    "field": "someField",
+    "has_pii": true,
+    "info_type": "LAST_NAME",
+    "likelihood_threshold": 1
+  }
+]

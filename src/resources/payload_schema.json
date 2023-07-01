@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "string"
+    },
+    "quoteNo": {
+      "type": "number"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "someField": {
+          "type": "string"
+        },
+        "someList": {"$ref": "#/$defs/someList"},
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName"
+      ]
+    }
+  },
+  "required": ["requestId", "quoteNo", "data"],
+  "$defs": {
+    "someList": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    }
+  }
+}
