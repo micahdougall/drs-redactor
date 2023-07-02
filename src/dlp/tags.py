@@ -5,8 +5,9 @@ from strenum import StrEnum
 from dataclass_wizard import JSONWizard
 
 
-# Google InfoType detector ref: https://cloud.google.com/dlp/docs/infotypes-reference
 class InfoType(StrEnum):
+    """InfoType enum for DLP API Info types"""
+
     AGE = "AGE",
     CREDIT_CARD_NUMBER = "CREDIT_CARD_NUMBER",
     DATE_OF_BIRTH = "DATE_OF_BIRTH",
@@ -25,6 +26,9 @@ class InfoType(StrEnum):
 
 @dataclass
 class Tag(JSONWizard):
+    """Class to store Data Catalog tag information"""
+
+    # Used to serialize objects from JSON
     class _(JSONWizard.Meta):
         debug_enabled = True
         raise_on_unknown_json_key = True
@@ -35,4 +39,6 @@ class Tag(JSONWizard):
     likelihood_threshold: int = 4
 
     def __post_init__(self):
+        """Validates the likelihood threshold is between 0 and 5"""
+
         assert 0 <= self.likelihood_threshold <= 5

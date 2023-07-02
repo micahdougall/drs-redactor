@@ -4,6 +4,57 @@ from dlp.tags import Tag
 from dlp.service import inspect_string
 
 
+# def sanitise(
+#         project: str,
+#         inspect_config: str,
+#         payload: str,
+#         tags: dict
+# ) -> dict:
+#     """Redacts sensitive data from a payload using DLP API along with explicit Data Catalog tags
+    
+#     Args:
+#         project: GCP project ID
+#         inspect_config: DLP inspect config
+#         payload: the payload to sanitise
+#         tags: Data Catalog tags
+
+#     Returns:
+#         the sanitised payload
+#     """
+
+#     response = inspect_string(
+#         project,
+#         inspect_config,
+#         payload
+#     )
+
+#     pii_tags = Tag.from_list(tags)
+    
+#     try:
+#         for finding in response.result.findings:
+#             print(f"Finding: {finding}")
+#             keys = get_keys_from_value(json.loads(payload), finding.quote)
+#             print(f"All matching keys for {finding.quote}: {keys}")
+
+#             # Redact fields where either:
+#             #   - Likeliness level from DLP is 'LIKELY' or above
+#             #   - Data Catalog tag has explicit PII classification
+#             #   - Data Catalog tag has likelihood threshold lower than DLP finding
+#             if finding.likelihood > 3 or any(
+#                 map(
+#                     lambda tag: tag.field in keys and (
+#                         tag.has_pii or finding.likelihood > tag.likelihood_thresold
+#                     ), pii_tags
+#                 )
+#             ):
+#                 print(f"Redacting {finding.quote}")
+#                 payload = payload.replace(finding.quote, "<REDACTED>")
+#     except AttributeError:
+#         print("No DLP findings in payload")
+
+#     return json.loads(payload)
+
+
 def sanitise(
         project: str,
         inspect_config: str,
@@ -38,7 +89,6 @@ def sanitise(
 
             # Redact fields where either:
             #   - Likeliness level from DLP is 'LIKELY' or above
-            #   - Data Catalog tag has explicit PII classification
             #   - Data Catalog tag has likelihood threshold lower than DLP finding
             if finding.likelihood > 3 or any(
                 map(
@@ -52,8 +102,32 @@ def sanitise(
     except AttributeError:
         print("No DLP findings in payload")
 
-    return json.loads(payload)
+    # Remove all fields which are explicitly tagged as PII
+    return strip_pii_by_keys(
+        json.loads(payload), 
+        [pii.field for pii in pii_tags if pii.has_pii]
+    )
 
+
+def strip_pii_by_keys(data: dict, keys: str) -> dict:
+    """Recursively redacts values from a dictioary based on a list of keys.
+
+    Args:
+        data: the original data containing the PII
+    
+    Returns:
+        a list of PII tag names whose values should be redacted
+    """
+
+    for key, value in data.items():
+        if isinstance(value, dict):
+            data.update({key: strip_pii_by_keys(value, keys)})
+        elif isinstance(value, list):
+            for item in value:
+                data.update({key: strip_pii_by_keys(item, keys)})
+        elif key in keys:
+            data.update({key: "<REDACTED>"})
+    return data
 
 
 def get_keys_from_value(data: any, value: str) -> list[str]:
