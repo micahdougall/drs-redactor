@@ -8,13 +8,12 @@
   {
     "field": "lastName",
     "has_pii": false,
-    "info_type": "LAST_NAME",
+    "info_type": "LAST_NAME  ",
     "likelihood_threshold": 1
   },
   {
     "field": "key",
     "has_pii": true,
-    "info_type": "GENDER",
     "likelihood_threshold": 1
   }
 ]

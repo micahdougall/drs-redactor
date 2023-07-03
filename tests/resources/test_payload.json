@@ -1,0 +1,36 @@
+{
+  "requestId": "0000-request-id-0000",
+  "policyPeriod": {
+      "entity.Contact": [
+          {
+              "entity.Contact": "PERSONAL_DATA"
+          }
+      ],
+      "entity.PolicyContactAddress_Adm": [
+          {
+              "AddressLine3Internal": "PERSONAL_DATA",
+              "PostalCodeInternal": "PERSONAL_DATA"
+          },
+          {
+              "PostalCodeInternal": "PERSONAL_DATA",
+              "AddressLine2Internal": "PERSONAL_DATA",
+              "AddressTypeInternal": "home"
+          }
+      ]
+  },
+  "enrichmentData": [
+      {
+          "_entityId": "",
+          "_fldArrayValueMap": {
+              "SURNAME": "PERSONAL_DATA"
+          }
+      },
+      {
+          "_serviceDetails": null,
+          "_fldArrayValueMap": {
+              "VEHICLE REGISTRATION": "PERSONAL_DATA"
+          }
+      }
+  ],
+  "policyQuoteNumber": null
+}
